@@ -14,10 +14,16 @@ import com.supermartijn642.core.registry.RegistryEntryAcceptor;
 import com.supermartijn642.movingelevators.blocks.*;
 import com.supermartijn642.movingelevators.generators.*;
 import com.supermartijn642.movingelevators.packets.*;
+import net.minecraft.client.resources.sounds.SoundEventRegistration;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.material.Material;
 import net.minecraft.world.level.material.MaterialColor;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraftforge.registries.NewRegistryEvent;
+import net.minecraftforge.registries.RegisterEvent;
 
 import java.util.Set;
 import java.util.function.Supplier;
@@ -30,6 +36,7 @@ public class MovingElevators {
 
     public static final Set<String> CAMOUFLAGE_MOD_BLACKLIST = Sets.newHashSet("movingelevators");
     public static final PacketChannel CHANNEL = PacketChannel.create("movingelevators");
+    public static SoundEvent SOUND;
 
     @RegistryEntryAcceptor(namespace = "movingelevators", identifier = "elevator_block", registry = RegistryEntryAcceptor.Registry.BLOCKS)
     public static ControllerBlock elevator_block;
@@ -74,6 +81,7 @@ public class MovingElevators {
         if(CommonUtils.getEnvironmentSide().isClient())
             MovingElevatorsClient.register();
         registerGenerators();
+
     }
 
     private static void register(){
@@ -91,6 +99,11 @@ public class MovingElevators {
         handler.registerItem("elevator_block", () -> new BaseBlockItem(elevator_block, ItemProperties.create().group(GROUP)));
         handler.registerItem("display_block", () -> new BaseBlockItem(display_block, ItemProperties.create().group(GROUP)));
         handler.registerItem("button_block", () -> new RemoteControllerBlockItem(button_block, ItemProperties.create().group(GROUP)));
+
+        var id = new ResourceLocation("movingelevators:ping");
+        var sound = new SoundEvent(id);
+        MovingElevators.SOUND = sound;
+        handler.registerSoundEvent("ping",sound);
     }
 
     private static void registerGenerators(){

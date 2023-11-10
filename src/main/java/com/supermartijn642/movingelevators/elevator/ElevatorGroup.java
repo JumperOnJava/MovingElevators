@@ -10,6 +10,8 @@ import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.item.ItemEntity;
@@ -116,7 +118,7 @@ public class ElevatorGroup {
                     this.level.updateNeighbourForOutputSignal(pos, this.level.getBlockState(pos).getBlock());
             this.shouldBeSynced = true;
             Vec3 soundPos = this.getCageAnchorPos(this.targetY).add(this.cageSizeX / 2d, this.cageSizeY / 2d, this.cageSizeZ / 2d);
-            this.level.playSound(null, soundPos.x, soundPos.y, soundPos.z, SoundEvents.EXPERIENCE_ORB_PICKUP, SoundSource.BLOCKS, 0.4f, 0.5f);
+            this.level.playSound(null, soundPos.x, soundPos.y, soundPos.z, MovingElevators.SOUND, SoundSource.BLOCKS, 1f, 1f);
             this.syncCounter = 0;
         }
     }
